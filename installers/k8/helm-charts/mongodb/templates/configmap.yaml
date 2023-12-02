@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-mongodb-config
+data:
+  MONGO_INITDB_ROOT_USERNAME: {{ .Values.mongodb.environment.MONGO_INITDB_ROOT_USERNAME }}
+  MONGO_INITDB_ROOT_PASSWORD: {{ .Values.mongodb.environment.MONGO_INITDB_ROOT_PASSWORD }}
