@@ -1,0 +1,50 @@
+replicaCount: 1
+
+image:
+  repository: "your-image-repository"
+  tag: "your-image-tag"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 6060
+
+resources:
+  limits:
+    cpu: "1"
+    memory: 1Gi
+  requests:
+    cpu: "0.5"
+    memory: 512Mi
+
+env:
+  GITLAB_URL: "gitlab.example.com"
+  GITLAB_OAUTH_CLIENT_ID: "your-client-id"
+  GITLAB_OAUTH_SECRET: "your-secret"
+  # Add other environment variables as needed
+
+mongo:
+  port: 27017
+  env:
+    MONGO_USER: "admin"
+    MONGO_PASSWORD: "password"
+
+config:
+  clusterdns: "cluster.local"
+
+livenessProbe:
+  tcpSocket:
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 20
+
+readinessProbe:
+  tcpSocket:
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 20
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+

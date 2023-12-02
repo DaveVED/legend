@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "legend-engine.fullname" . }}-engine
+  labels:
+    {{- include "legend-engine.labels" . | nindent 4 }}
+data:
+  DEPLOYMENT_MODE: "TEST_IGNORE_FUNCTION_MATCH"
+  LOGGING_LEVEL: "info"
+  LOGGER_ROOT_LEVEL: "info"
+  LOGGER_ORG_PAC4J_LEVEL: "debug"
+  LOGGER_APPENDER_TYPE: "console"
+  LOGGER_LOG_FORMAT: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%thread] %c - %m%n"
+  PAC4J_CALLBACK_PREFIX: ""
+  MONGO_URI: "mongodb://{{ .Values.mongo.env.MONGO_USER }}:{{ .Values.mongo.env.MONGO_PASSWORD }}@{{ include 'legend-engine.fullname' . }}-mongo.{{ .Release.Namespace }}.{{ .Values.config.clusterdns }}:{{ .Values.mongo.port }}"
+  MONGO_DB: "legend"
+  BYPASS_PATHS: "/api/server/v1/info"
+  CLIENT_NAME: "gitlab"
+  CLIENT_ID: "{{ .Values.env.GITLAB_OAUTH_CLIENT_ID }}"
+  CLIENT_SECRET: "{{ .Values.env.GITLAB_OAUTH_SECRET }}"
+  DISCOVERY_URI: "https://{{ .Values.env.GITLAB_URL }}/.well-known/openid-configuration"
+  SCOPE: "openid profile api"
+  MONGO_SESSION_ENABLED: "true"
+  MONGO_SESSION_COLLECTION: "userSessions"
+  SWAGGER_TITLE: "Legend Execution REST Services"
+  SWAGGER_RESOURCE_PACKAGE: "org.finos.legend"
+  SWAGGER_URI_PREFIX: "/api"
+  SERVER_TYPE: "simple"
+  SERVER_APPLICATION_CONTEXT_PATH: "/engine"
+  SERVER_ADMIN_CONTEXT_PATH: "/admin"
+  SERVER_CONNECTOR_MAX_REQUEST_HEADER_SIZE: "32KiB"
+  SERVER_CONNECTOR_TYPE: "http"
+  SERVER_CONNECTOR_PORT: "6060"
+  METADATA_SERVER_PURE_HOST: "127.0.0.1"
+  METADATA_SERVER_PURE_PORT: "8090"
+
